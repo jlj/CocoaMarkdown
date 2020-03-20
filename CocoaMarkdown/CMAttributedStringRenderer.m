@@ -154,7 +154,7 @@
 
 - (void)parser:(CMParser *)parser didStartImageWithURL:(NSURL *)URL title:(NSString *)title
 {
-    NSTextAttachment* textAttachment = [[CMImageTextAttachment alloc] initWithImageURL:URL];
+    NSTextAttachment* textAttachment = [[CMImageTextAttachment alloc] initWithImageURL:URL inURLSession:_imageURLSession];
     if (textAttachment != nil) {
         // Detect if an image has its own paragraph, in which cas we can apply specific attributes.
         // (Note: This test also detect the case: image in link in paragraph)

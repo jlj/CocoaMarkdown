@@ -36,6 +36,16 @@
  */
 - (void)registerHTMLElementTransformer:(id<CMHTMLElementTransformer>)transformer;
 
+
+/**
+ *  URL Session used for retrieving images with HTTP URLs 
+ *
+ *  With this property, you can set a specific NSURLSessionConfiguration, and provide a high level of customizability to image download: custom HTTP headers….
+ *
+ *  By default imageURLSession is nil and the shared NSURLSession is used for getting images. 
+*/
+@property NSURLSession* imageURLSession;
+
 /**
  *  Renders an attributed string from the Markdown document.
  *

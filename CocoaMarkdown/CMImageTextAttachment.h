@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CMImageTextAttachment : NSTextAttachment
 
-- (instancetype) initWithImageURL:(NSURL*)imageURL;
+- (instancetype) initWithImageURL:(NSURL*)imageURL inURLSession:(NSURLSession*)URLSession;
 
 @property (nonatomic, readonly) NSURL* imageURL;
 

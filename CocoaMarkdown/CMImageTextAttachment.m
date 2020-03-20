@@ -16,6 +16,7 @@
 @interface CMImageTextAttachment ()
 {
     NSTextContainer* __weak _textContainer;
+    NSURLSession* _URLSession;
     NSURLSessionDataTask* _downloadTask;
     BOOL _isImageLoaded;
 }
@@ -79,13 +80,14 @@ static NSImage* _placeholderImage;
 }
 #endif
 
-- (instancetype) initWithImageURL:(NSURL*)imageURL
+- (instancetype) initWithImageURL:(NSURL*)imageURL inURLSession:(NSURLSession*)URLSession
 {
     NSString* imageUrlUti = (__bridge_transfer NSString*) UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)imageURL.pathExtension, kUTTypeData);
     
     self = [super initWithData:nil ofType:imageUrlUti];
     if (self != nil) {
         _imageURL = imageURL;
+        _URLSession = URLSession ?: NSURLSession.sharedSession; // Use the shared URL Session if none is specified
         _isImageLoaded = NO;
         self.image = [self.class placeholderImage];
     }
@@ -132,7 +134,7 @@ static NSImage* _placeholderImage;
         }
         else if (_downloadTask == nil) {
             // Not a file URL and no download task in progress: use an URL-data-task to get the data
-            _downloadTask = [NSURLSession.sharedSession dataTaskWithURL:_imageURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            _downloadTask = [_URLSession dataTaskWithURL:_imageURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 
                 if ((error == nil) && (data.length > 0)) {
                     dispatch_async(dispatch_get_main_queue(), ^{
